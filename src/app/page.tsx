@@ -1,5 +1,3 @@
-export default function Home() {
-  return (
-    <h1>Hello from Next!</h1>
-  );
+export default function HomePage() {
+  return <h1>recipes page</h1>
 }
