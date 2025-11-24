@@ -13,6 +13,9 @@ import { usePathname } from 'next/navigation'
 import { twMerge } from 'tailwind-merge'
 import { siteConfig } from '@/config/site.config'
 import { layoutConfig } from '@/config/layout.config'
+import { RegisterModal } from '@/components/modals/RegisterModal'
+import { LoginModal } from '@/components/modals/LoginModal'
+import { useState } from 'react'
 
 export const Logo = () => {
   return (
@@ -27,6 +30,8 @@ export const Logo = () => {
 }
 
 export default function Header() {
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false)
+  const [isLoginOpen, setIsLoginOpen] = useState(false)
   const pathName = usePathname()
 
   const getNavItems = () => {
@@ -57,7 +62,7 @@ export default function Header() {
       }}
     >
       <NavbarBrand>
-        <Link href="/" className="flex gap-px items-center">
+        <Link href="/public" className="flex gap-px items-center">
           <Logo />
           <p className="font-bold text-inherit">{siteConfig.title}</p>
         </Link>
@@ -74,9 +79,8 @@ export default function Header() {
             href="#"
             variant="flat"
             radius="full"
-            className={twMerge(
-              'bg-accent text-primary-white transition-colors',
-            )}
+            className="bg-primary-dark text-primary-white transition-colors hover:bg-accent"
+            onPress={() => setIsLoginOpen(true)}
           >
             login
           </Button>
@@ -88,14 +92,21 @@ export default function Header() {
             variant="bordered"
             radius="full"
             className={twMerge(
-              'border-accent text-accent transition-colors',
-              'hover:bg-accent hover:text-primary-white',
+              'border-1 border-primary-dark text-primary-dark transition-colors',
+              'hover:bg-accent hover:border-accent hover:text-primary-white',
             )}
+            onPress={() => setIsRegisterOpen(true)}
           >
             sign up
           </Button>
         </NavbarItem>
       </NavbarContent>
+
+      <RegisterModal
+        isOpen={isRegisterOpen}
+        onClose={() => setIsRegisterOpen(false)}
+      />
+      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </Navbar>
   )
 }
