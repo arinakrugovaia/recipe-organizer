@@ -4,6 +4,7 @@ import { Form } from '@heroui/form'
 import { Button, Input } from '@heroui/react'
 import React, { useState } from 'react'
 import { validateEmail } from '@/features/auth/utils/validateEmail'
+import { registerUsers } from '@/actions/register'
 
 type RegisterFormProps = {
   onClose: () => void
@@ -18,8 +19,9 @@ export function RegisterForm({ onClose }: RegisterFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('form submitted: ', formData)
 
+    const result = await registerUsers(formData)
+    console.log('result of registration :', result)
     onClose()
   }
 

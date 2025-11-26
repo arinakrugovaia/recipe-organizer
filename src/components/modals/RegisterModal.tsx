@@ -8,7 +8,7 @@ type RegisterModalProps = {
 
 export function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
   return (
-    <ModalComponent isOpen={isOpen} onClose={onClose} title="create account">
+    <ModalComponent isOpen={isOpen} onClose={onClose} title="sign up">
       <RegisterForm onClose={onClose} />
     </ModalComponent>
   )

@@ -16,6 +16,7 @@ import { layoutConfig } from '@/config/layout.config'
 import { RegisterModal } from '@/components/modals/RegisterModal'
 import { LoginModal } from '@/components/modals/LoginModal'
 import { useState } from 'react'
+import { signOutUser } from '@/actions/signOut'
 
 export const Logo = () => {
   return (
@@ -33,6 +34,10 @@ export default function Header() {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false)
   const [isLoginOpen, setIsLoginOpen] = useState(false)
   const pathName = usePathname()
+
+  const handleSignOut = async () => {
+    await signOutUser()
+  }
 
   const getNavItems = () => {
     return siteConfig.navItems.map((item) => {
@@ -80,6 +85,18 @@ export default function Header() {
             variant="flat"
             radius="full"
             className="bg-primary-dark text-primary-white transition-colors hover:bg-accent"
+            onPress={handleSignOut}
+          >
+            logout
+          </Button>
+        </NavbarItem>
+        <NavbarItem className="hidden lg:flex">
+          <Button
+            as={Link}
+            href="#"
+            variant="flat"
+            radius="full"
+            className="bg-primary-dark text-primary-white transition-colors hover:bg-accent"
             onPress={() => setIsLoginOpen(true)}
           >
             login
@@ -93,7 +110,7 @@ export default function Header() {
             radius="full"
             className={twMerge(
               'border-1 border-primary-dark text-primary-dark transition-colors',
-              'hover:bg-accent hover:border-accent hover:text-primary-white',
+              'hover:border-accent hover:text-accent-dark',
             )}
             onPress={() => setIsRegisterOpen(true)}
           >
