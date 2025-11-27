@@ -1,4 +1,4 @@
-import { ModalComponent } from '@/components/ui/Modal'
+import { ModalComponent } from '@/shared/ui/Modal'
 import { RegisterForm } from '@/features/auth/components/RegisterForm'
 
 type RegisterModalProps = {

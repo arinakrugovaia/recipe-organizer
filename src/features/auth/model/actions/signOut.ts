@@ -1,12 +1,10 @@
 'use server'
 
-import { signOut } from '@/auth/auth'
+import { signOut } from '@/features/auth/auth'
 
 export async function signOutUser() {
   try {
-    const result = await signOut({ redirect: false })
-
-    return result
+    return await signOut({ redirect: false })
   } catch (error) {
     console.error('Auth error: ', error)
     throw error

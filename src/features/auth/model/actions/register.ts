@@ -1,8 +1,8 @@
 'use server'
 
-import { UserFormData } from '@/types/formData'
-import prisma from '@/lib/prisma'
-import { saltAndHashPassword } from '@/lib/password'
+import { UserFormData } from '@/shared/types/formData'
+import prisma from '@/shared/lib/prisma'
+import { saltAndHashPassword } from '@/shared/lib/password'
 
 export async function registerUsers(formData: UserFormData) {
   const { email, password, confirmPassword } = formData
@@ -24,14 +24,12 @@ export async function registerUsers(formData: UserFormData) {
     }
 
     const passwordHash = await saltAndHashPassword(password)
-    const user = await prisma.user.create({
+    return await prisma.user.create({
       data: {
         email: email,
         password: passwordHash,
       },
     })
-    console.log(user)
-    return user
   } catch (error) {
     console.error('Registration is failed: ', error)
     return { error: "We couldn't complete your registration. Try again later." }

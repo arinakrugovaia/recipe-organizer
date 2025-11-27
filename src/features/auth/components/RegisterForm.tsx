@@ -4,7 +4,7 @@ import { Form } from '@heroui/form'
 import { Button, Input } from '@heroui/react'
 import React, { useState } from 'react'
 import { validateEmail } from '@/features/auth/utils/validateEmail'
-import { registerUsers } from '@/actions/register'
+import { registerUsers } from '@/features/auth/model/actions/register'
 
 type RegisterFormProps = {
   onClose: () => void

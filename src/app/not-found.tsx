@@ -3,15 +3,14 @@
 import React from 'react'
 import { Button } from '@heroui/react'
 import Link from 'next/link'
-import { twMerge } from 'tailwind-merge'
 
 export default function NotFoundPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-neutral-900 p-4 text-center">
-      <h1 className="text-6xl font-bold text-indigo-300 mb-4 animate-bounce">
+    <div className="flex flex-col justify-center items-center self-center h-full justify-self-center">
+      <h1 className="text-6xl font-bold text-primary-dark mb-4 animate-bounce">
         404
       </h1>
-      <p className="text-base text-foreground mb-6">
+      <p className="text-base text-foreground text-center mb-6">
         oops! this recipe seems to have gone missing… 😅 <br />
         try heading back to the homepage to find something delicious!
       </p>
@@ -20,11 +19,7 @@ export default function NotFoundPage() {
         href="/"
         variant="flat"
         radius="full"
-        className={twMerge(
-          'bg-indigo-300 text-neutral-900 transition-colors',
-          'hover:bg-indigo-400',
-          'active:bg-indigo-300',
-        )}
+        className="bg-primary-dark text-primary-white transition-colors hover:bg-accent"
       >
         back to recipes
       </Button>

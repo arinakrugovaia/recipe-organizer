@@ -2,9 +2,9 @@ import NextAuth from 'next-auth'
 import { ZodError } from 'zod'
 import bcrypt from 'bcryptjs'
 import Credentials from 'next-auth/providers/credentials'
-import { getUserFromDb } from '@/lib/user'
+import { getUserFromDb } from '@/shared/lib/user'
 import { PrismaAdapter } from '@auth/prisma-adapter'
-import prisma from '@/lib/prisma'
+import prisma from '@/shared/lib/prisma'
 import { signInSchema } from '@/schema/zod'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -45,4 +45,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  session: {
+    strategy: 'jwt',
+    maxAge: 10800,
+  },
+  secret: process.env.AUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id
+      }
+      return token
+    },
+  },
 })
