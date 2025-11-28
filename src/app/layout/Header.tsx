@@ -58,7 +58,7 @@ export default function Header() {
             className={twMerge(
               isActivePath ? 'text-accent' : 'text-primary-dark',
               'hover:text-accent-dark',
-              'transition-colors',
+              'font-normal transition-colors',
             )}
           >
             {item.label}
@@ -71,6 +71,7 @@ export default function Header() {
   return (
     <Navbar
       style={{
+        borderBottom: '1px solid var(--color-light-gray)',
         backgroundColor: 'inherit',
         height: layoutConfig.headerHeight,
       }}
@@ -78,7 +79,7 @@ export default function Header() {
       <NavbarBrand>
         <Link href="/public" className="flex gap-px items-center">
           <Logo />
-          <p className="font-bold text-inherit">{siteConfig.title}</p>
+          <h2>{siteConfig.title}</h2>
         </Link>
       </NavbarBrand>
 
@@ -94,7 +95,7 @@ export default function Header() {
               as={Link}
               href="#"
               variant="flat"
-              radius="full"
+              radius="md"
               className="bg-primary-dark text-primary-white transition-colors hover:bg-accent"
               onPress={handleSignOut}
             >
@@ -108,7 +109,7 @@ export default function Header() {
                 as={Link}
                 href="#"
                 variant="flat"
-                radius="full"
+                radius="md"
                 className="bg-primary-dark text-primary-white transition-colors hover:bg-accent"
                 onPress={() => setIsLoginOpen(true)}
               >
@@ -120,7 +121,7 @@ export default function Header() {
                 as={Link}
                 href="#"
                 variant="bordered"
-                radius="full"
+                radius="md"
                 className={twMerge(
                   'border-1 border-primary-dark text-primary-dark transition-colors',
                   'hover:border-accent hover:text-accent-dark',

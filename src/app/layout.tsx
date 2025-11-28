@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Inter, Sora } from 'next/font/google'
 import './globals.css'
 import React from 'react'
 import Header from '@/app/layout/Header'
@@ -9,15 +9,16 @@ import { layoutConfig } from '@/shared/config/layout.config'
 import { SessionProvider } from 'next-auth/react'
 import { auth } from '@/features/auth/auth'
 import { AppLoader } from '@/shared/hoc/AppLoader'
+import { PageTitle } from '@/shared/ui/PageTitle'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const inter = Inter({
   subsets: ['latin'],
+  variable: '--font-inter',
 })
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const sora = Sora({
   subsets: ['latin'],
+  variable: '--font-sora',
 })
 
 export const metadata: Metadata = {
@@ -32,20 +33,22 @@ export default async function RootLayout({
 }>) {
   const session = await auth()
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html
+      lang="en"
+      className={`${inter.variable} ${sora.variable} antialiased`}
+    >
+      <body>
         <HeroUIProviderComponent>
           <SessionProvider session={session}>
             <AppLoader>
               <Header />
               <main
-                className="flex flex-col justify-start items-center w-full p-4"
+                className="flex flex-col justify-start mx-auto items-center max-w-[1024px] w-full px-6"
                 style={{
-                  height: `calc(100vh - ${layoutConfig.headerHeight} - ${layoutConfig.footerHeight})`,
+                  minHeight: `calc(100vh - ${layoutConfig.headerHeight} - ${layoutConfig.footerHeight})`,
                 }}
               >
+                <PageTitle />
                 {children}
               </main>
               <footer

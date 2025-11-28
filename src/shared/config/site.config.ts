@@ -5,6 +5,6 @@ export const siteConfig = {
   navItems: [
     { href: '/', label: 'recipes' },
     { href: '/ingredients', label: 'ingredients' },
-    { href: '/about', label: 'about us' },
+    { href: '/about', label: 'about' },
   ],
 }

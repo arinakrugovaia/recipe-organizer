@@ -63,7 +63,7 @@ export function LoginForm({ onClose }: LoginFormProps) {
       <Button
         variant="flat"
         size="lg"
-        radius="full"
+        radius="md"
         className="w-full mt-4 bg-primary-dark text-primary-white transition-colors hover:bg-accent"
         type="submit"
       >

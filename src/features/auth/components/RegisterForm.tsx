@@ -80,7 +80,7 @@ export function RegisterForm({ onClose }: RegisterFormProps) {
       />
       <Button
         variant="flat"
-        size="lg"
+        size="md"
         radius="full"
         className="w-full mt-4 bg-primary-dark text-primary-white transition-colors hover:bg-accent"
         type="submit"
