@@ -1,82 +1,82 @@
 'use client'
 
-import { Form } from '@heroui/form'
-import { Button, Input } from '@heroui/react'
-import React, { useState } from 'react'
-import { validateEmail } from '@/features/auth/utils/validateEmail'
+import { Form, Button, Input } from '@heroui/react'
 import { registerUsers } from '@/features/auth/model/actions/register'
+import { SignUpFormType, signUpSchema } from '@/schema/zod'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 type RegisterFormProps = {
   onClose: () => void
 }
 
 export function RegisterForm({ onClose }: RegisterFormProps) {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
+  const { control, handleSubmit, reset } = useForm<SignUpFormType>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+    mode: 'onBlur',
   })
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    const result = await registerUsers(formData)
-    console.log('result of registration :', result)
+  const onSubmit = async (data: SignUpFormType) => {
+    await registerUsers(data)
     onClose()
+    reset()
   }
 
   return (
-    <Form className="w-full" onSubmit={handleSubmit}>
-      <Input
-        isRequired
-        aria-label="email"
-        label="email"
+    <Form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        control={control}
         name="email"
-        type="email"
-        labelPlacement="inside"
-        value={formData.email}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-        validate={(value) => {
-          if (!value) return 'email is required'
-          if (!validateEmail(value)) return 'please enter a valid email'
-          return null
-        }}
+        render={({ field, fieldState }) => (
+          <Input
+            {...field}
+            isRequired
+            aria-label="email"
+            label="email"
+            type="email"
+            labelPlacement="inside"
+            errorMessage={fieldState.error?.message}
+            isInvalid={!!fieldState.error}
+          />
+        )}
       />
-      <Input
-        isRequired
-        aria-label="password"
-        label="password"
+      <Controller
+        control={control}
         name="password"
-        type="password"
-        labelPlacement="inside"
-        value={formData.password}
-        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-        validate={(value) => {
-          if (!value) return 'password is required'
-          if (value.length < 8)
-            return 'password length must be at least 8 characters'
-          return null
-        }}
+        render={({ field, fieldState }) => (
+          <Input
+            {...field}
+            isRequired
+            aria-label="password"
+            label="password"
+            type="password"
+            labelPlacement="inside"
+            autoComplete="new-password"
+            errorMessage={fieldState.error?.message}
+            isInvalid={!!fieldState.error}
+          />
+        )}
       />
-      <Input
-        isRequired
-        aria-label="confirm password"
-        label="confirm password"
-        name="confirm password"
-        type="password"
-        labelPlacement="inside"
-        value={formData.confirmPassword}
-        onChange={(e) =>
-          setFormData({
-            ...formData,
-            confirmPassword: e.target.value,
-          })
-        }
-        validate={(value) => {
-          if (!value) return 'you must confirm your password'
-          if (value !== formData.password) return 'passwords do not match'
-          return null
-        }}
+      <Controller
+        control={control}
+        name="confirmPassword"
+        render={({ field, fieldState }) => (
+          <Input
+            {...field}
+            isRequired
+            aria-label="confirm password"
+            label="confirm password"
+            type="password"
+            labelPlacement="inside"
+            errorMessage={fieldState.error?.message}
+            isInvalid={!!fieldState.error}
+          />
+        )}
       />
       <Button
         variant="flat"

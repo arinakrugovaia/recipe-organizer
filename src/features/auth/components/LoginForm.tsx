@@ -1,65 +1,83 @@
 'use client'
 
-import { Form } from '@heroui/form'
-import React, { useState } from 'react'
-import { Button, Input } from '@heroui/react'
+import { Form, Button, Input } from '@heroui/react'
 import { signInWithCredentials } from '@/features/auth/model/actions/signIn'
 import { useSession } from 'next-auth/react'
+import { SignInFormType, signInSchema } from '@/schema/zod'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 type LoginFormProps = {
   onClose: () => void
 }
 
 export function LoginForm({ onClose }: LoginFormProps) {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+  const {
+    control,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors },
+  } = useForm<SignInFormType>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    mode: 'onBlur',
   })
   const { update } = useSession()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const onSubmit = async (data: SignInFormType) => {
+    const result = await signInWithCredentials(data.email, data.password)
 
-    await signInWithCredentials(formData.email, formData.password)
-
-    try {
-      await update()
-    } catch (error) {
-      console.error('Session update failed:', error)
+    if (!result.success) {
+      setError('root', { type: 'manual', message: result.message })
+      return
     }
+
+    await update()
+    reset()
     onClose()
   }
 
   return (
-    <Form className="w-full" onSubmit={handleSubmit}>
-      <Input
-        isRequired
-        aria-label="email"
-        label="email"
+    <Form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        control={control}
         name="email"
-        type="email"
-        labelPlacement="inside"
-        value={formData.email}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-        validate={(value) => {
-          if (!value) return 'email is required'
-          return null
-        }}
+        render={({ field, fieldState }) => (
+          <Input
+            {...field}
+            isRequired
+            aria-label="email"
+            label="email"
+            type="email"
+            labelPlacement="inside"
+            errorMessage={fieldState.error?.message}
+            isInvalid={!!fieldState.error}
+          />
+        )}
       />
-      <Input
-        isRequired
-        aria-label="password"
-        label="password"
+      <Controller
+        control={control}
         name="password"
-        type="password"
-        labelPlacement="inside"
-        value={formData.password}
-        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-        validate={(value) => {
-          if (!value) return 'password is required'
-          return null
-        }}
+        render={({ field, fieldState }) => (
+          <Input
+            {...field}
+            isRequired
+            aria-label="password"
+            label="password"
+            type="password"
+            labelPlacement="inside"
+            errorMessage={fieldState.error?.message}
+            isInvalid={!!fieldState.error}
+          />
+        )}
       />
+      {errors.root && (
+        <p className="text-red-500 text-sm">{errors.root.message}</p>
+      )}
       <Button
         variant="flat"
         size="lg"

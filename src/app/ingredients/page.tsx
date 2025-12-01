@@ -1,7 +1,11 @@
+import { IngredientForm } from '@/features/ingredient-editor/components/IngredientForm'
+import { pagesContent } from '@/shared/config/content.config'
+
 export default function IngredientsPage() {
   return (
-    <div>
-      <h1>ingredients page</h1>
-    </div>
+    <section className="flex flex-col gap-8 w-full text-gray">
+      <p>{pagesContent.ingredients.description}</p>
+      <IngredientForm />
+    </section>
   )
 }

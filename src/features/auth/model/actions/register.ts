@@ -1,10 +1,10 @@
 'use server'
 
-import { UserFormData } from '@/shared/types/formData'
 import prisma from '@/shared/lib/prisma'
 import { saltAndHashPassword } from '@/shared/lib/password'
+import { SignUpFormType } from '@/schema/zod'
 
-export async function registerUsers(formData: UserFormData) {
+export async function registerUsers(formData: SignUpFormType) {
   const { email, password, confirmPassword } = formData
 
   if (password !== confirmPassword) {

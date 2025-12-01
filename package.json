@@ -20,6 +20,7 @@
     "@heroui/react": "^2.8.5",
     "@heroui/system": "^2.4.23",
     "@heroui/theme": "^2.4.23",
+    "@hookform/resolvers": "^5.2.2",
     "@prisma/adapter-pg": "^7.0.1",
     "@prisma/client": "^7.0.0",
     "@prisma/extension-accelerate": "^3.0.0",
@@ -29,6 +30,7 @@
     "next-auth": "^5.0.0-beta.30",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-hook-form": "^7.67.0",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.1.13",
     "zustand": "^5.0.8"

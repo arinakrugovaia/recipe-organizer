@@ -18,6 +18,12 @@
   --color-light-gray: #f3f4f6;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 h1,
 h2,
 h3,

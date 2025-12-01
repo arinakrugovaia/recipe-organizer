@@ -4,13 +4,18 @@ import { signIn } from '@/features/auth/auth'
 
 export async function signInWithCredentials(email: string, password: string) {
   try {
-    return await signIn('credentials', {
+    const result = await signIn('credentials', {
       email,
       password,
       redirect: false,
     })
+
+    return { success: true, data: result }
   } catch (error) {
     console.error('Auth error: ', error)
-    throw error
+    return {
+      success: false,
+      message: 'Invalid email or password. Try again.',
+    }
   }
 }
