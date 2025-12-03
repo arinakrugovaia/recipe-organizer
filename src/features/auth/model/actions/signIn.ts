@@ -13,9 +13,6 @@ export async function signInWithCredentials(email: string, password: string) {
     return { success: true, data: result }
   } catch (error) {
     console.error('Auth error: ', error)
-    return {
-      success: false,
-      message: 'Invalid email or password. Try again.',
-    }
+    return { error: 'Invalid email or password. Try again.' }
   }
 }

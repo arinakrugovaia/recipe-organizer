@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { CategoryEnum, UnitEnum } from '@/shared/types/ingredients'
 
 export const signInSchema = z.object({
   email: z.email(),
@@ -31,8 +32,8 @@ export type SignUpFormType = z.infer<typeof signUpSchema>
 
 export const ingredientSchema = z.object({
   name: z.string().min(1, 'name is required'),
-  category: z.string().min(1, 'category is required'),
-  unit: z.string().min(1, 'unit is required'),
+  category: z.enum(CategoryEnum),
+  unit: z.enum(UnitEnum),
   pricePerUnit: z
     .number()
     .positive('price per unit must be positive')

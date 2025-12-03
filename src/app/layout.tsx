@@ -3,7 +3,7 @@ import { Inter, Sora } from 'next/font/google'
 import './globals.css'
 import React from 'react'
 import Header from '@/app/layout/Header'
-import { HeroUIProviderComponent } from '@/app/providers/HeroUIProvider'
+import { UIProvider } from '@/app/providers/UIProvider'
 import { siteConfig } from '@/shared/config/site.config'
 import { layoutConfig } from '@/shared/config/layout.config'
 import { SessionProvider } from 'next-auth/react'
@@ -38,7 +38,7 @@ export default async function RootLayout({
       className={`${inter.variable} ${sora.variable} antialiased`}
     >
       <body>
-        <HeroUIProviderComponent>
+        <UIProvider>
           <SessionProvider session={session}>
             <AppLoader>
               <Header />
@@ -52,7 +52,7 @@ export default async function RootLayout({
                 {children}
               </main>
               <footer
-                className="flex justify-center items-center"
+                className="flex justify-center items-center text-gray"
                 style={{
                   height: layoutConfig.footerHeight,
                 }}
@@ -61,7 +61,7 @@ export default async function RootLayout({
               </footer>
             </AppLoader>
           </SessionProvider>
-        </HeroUIProviderComponent>
+        </UIProvider>
       </body>
     </html>
   )

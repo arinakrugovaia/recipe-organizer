@@ -1,21 +1,23 @@
+import { CategoryEnum, UnitEnum } from '@/shared/types/ingredients'
+
 export const CATEGORY_OPTIONS = [
-  { value: 'VEGETABLES', label: 'vegetables' },
-  { value: 'FRUITS', label: 'fruits' },
-  { value: 'MEAT', label: 'meat' },
-  { value: 'FISH', label: 'fish & seafood' },
-  { value: 'GRAINS', label: 'grains & pasta' },
-  { value: 'DAIRY', label: 'dairy' },
-  { value: 'SPICES', label: 'spices' },
-  { value: 'OTHER', label: 'other' },
+  { value: CategoryEnum.VEGETABLES, label: 'vegetables' },
+  { value: CategoryEnum.FRUITS, label: 'fruits' },
+  { value: CategoryEnum.MEAT, label: 'meat' },
+  { value: CategoryEnum.FISH, label: 'fish & seafood' },
+  { value: CategoryEnum.GRAINS, label: 'grains & pasta' },
+  { value: CategoryEnum.DAIRY, label: 'dairy' },
+  { value: CategoryEnum.SPICES, label: 'spices' },
+  { value: CategoryEnum.OTHER, label: 'other' },
 ] as const
 
 export const UNIT_OPTIONS = [
-  { value: 'GRAMS', label: 'g' },
-  { value: 'KILOGRAMS', label: 'kg' },
-  { value: 'LITRES', label: 'L' },
-  { value: 'MILLILITRES', label: 'ml' },
-  { value: 'PIECES', label: 'pcs' },
-  { value: 'TEASPOONS', label: 'tsp' },
-  { value: 'TABLESPOONS', label: 'tbsp' },
-  { value: 'CUPS', label: 'cup' },
+  { value: UnitEnum.GRAMS, label: 'g' },
+  { value: UnitEnum.KILOGRAMS, label: 'kg' },
+  { value: UnitEnum.LITRES, label: 'L' },
+  { value: UnitEnum.MILLILITRES, label: 'ml' },
+  { value: UnitEnum.PIECES, label: 'pcs' },
+  { value: UnitEnum.TEASPOONS, label: 'tsp' },
+  { value: UnitEnum.TABLESPOONS, label: 'tbsp' },
+  { value: UnitEnum.CUPS, label: 'cup' },
 ] as const

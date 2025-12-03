@@ -1,17 +1,24 @@
 'use client'
 
-import { Form, Button, Input } from '@heroui/react'
+import { Form, Button, Input, addToast } from '@heroui/react'
 import { registerUsers } from '@/features/auth/model/actions/register'
 import { SignUpFormType, signUpSchema } from '@/schema/zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { HeartIcon } from '@/shared/icons/HeartIcon'
 
 type RegisterFormProps = {
   onClose: () => void
 }
 
 export function RegisterForm({ onClose }: RegisterFormProps) {
-  const { control, handleSubmit, reset } = useForm<SignUpFormType>({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors },
+  } = useForm<SignUpFormType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: '',
@@ -22,7 +29,18 @@ export function RegisterForm({ onClose }: RegisterFormProps) {
   })
 
   const onSubmit = async (data: SignUpFormType) => {
-    await registerUsers(data)
+    const result = await registerUsers(data)
+
+    if ('error' in result) {
+      setError('root', { type: 'server', message: result.error })
+      return
+    }
+
+    addToast({
+      title: 'successful registration! ❤️',
+      description: 'You successfully created a new account. You can login now.',
+      icon: <HeartIcon />,
+    })
     onClose()
     reset()
   }
@@ -78,6 +96,9 @@ export function RegisterForm({ onClose }: RegisterFormProps) {
           />
         )}
       />
+      {errors.root && (
+        <p className="text-red-500 text-sm">{errors.root.message}</p>
+      )}
       <Button
         variant="flat"
         size="md"

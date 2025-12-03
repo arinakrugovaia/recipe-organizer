@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
@@ -44,8 +44,8 @@ enum Unit {
 model Ingredient {
   id           String   @id @default(uuid())
   name         String
-  category     Category
-  unit         Unit
+  category     Category @default(VEGETABLES)
+  unit         Unit @default(GRAMS)
   pricePerUnit Float?
   description  String?
   createdAt    DateTime @default(now()) @map("created_at")

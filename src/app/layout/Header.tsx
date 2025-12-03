@@ -49,23 +49,27 @@ export default function Header() {
   }
 
   const getNavItems = () => {
-    return siteConfig.navItems.map((item) => {
-      const isActivePath = item.href === pathName
-      return (
-        <NavbarItem key={item.href} isActive={isActivePath}>
-          <Link
-            href={item.href}
-            className={twMerge(
-              isActivePath ? 'text-accent' : 'text-primary-dark',
-              'hover:text-accent-dark',
-              'font-normal transition-colors',
-            )}
-          >
-            {item.label}
-          </Link>
-        </NavbarItem>
-      )
-    })
+    return siteConfig.navItems
+      .filter((item) => {
+        return item.href === '/ingredients' ? isAuth : true
+      })
+      .map((item) => {
+        const isActivePath = item.href === pathName
+        return (
+          <NavbarItem key={item.href} isActive={isActivePath}>
+            <Link
+              href={item.href}
+              className={twMerge(
+                isActivePath ? 'text-accent' : 'text-primary-dark',
+                'hover:text-accent-dark',
+                'font-normal transition-colors',
+              )}
+            >
+              {item.label}
+            </Link>
+          </NavbarItem>
+        )
+      })
   }
 
   return (

@@ -31,8 +31,8 @@ export function LoginForm({ onClose }: LoginFormProps) {
   const onSubmit = async (data: SignInFormType) => {
     const result = await signInWithCredentials(data.email, data.password)
 
-    if (!result.success) {
-      setError('root', { type: 'manual', message: result.message })
+    if ('error' in result) {
+      setError('root', { type: 'manual', message: result.error })
       return
     }
 

@@ -1,30 +1,61 @@
 'use client'
 
-import { Form, Button, Input, Select, SelectItem } from '@heroui/react'
+import {
+  Form,
+  Button,
+  Input,
+  Select,
+  SelectItem,
+  addToast,
+} from '@heroui/react'
 import {
   CATEGORY_OPTIONS,
   UNIT_OPTIONS,
 } from '@/shared/constants/selectOptions'
 import { Textarea } from '@heroui/input'
-import { createIngredient } from '@/features/ingredient-editor/model/actions/createIngredient'
 import { IngredientFormType, ingredientSchema } from '@/schema/zod'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { CategoryEnum, UnitEnum } from '@/shared/types/ingredients'
+import { PlusIcon } from '@/shared/icons/PlusIcon'
+import { useIngredientStore } from '@/features/ingredient-editor/model/ingredient.store'
 
 export function IngredientForm() {
-  const { control, handleSubmit, reset } = useForm<IngredientFormType>({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm<IngredientFormType>({
     resolver: zodResolver(ingredientSchema),
     defaultValues: {
       name: '',
-      category: '',
-      unit: '',
+      category: CategoryEnum.VEGETABLES,
+      unit: UnitEnum.GRAMS,
       pricePerUnit: null,
       description: '',
     },
   })
+  const { createIngredient } = useIngredientStore()
 
   const onSubmit = async (data: IngredientFormType) => {
+    clearErrors('root')
+
     await createIngredient(data)
+    const storeError = useIngredientStore.getState().error
+
+    if (storeError) {
+      setError('root', { type: 'server', message: storeError })
+      return
+    }
+
+    addToast({
+      title: 'new ingredient cr️eated! 🎉',
+      description: 'Ingredient added! You can now use it in recipes.',
+      icon: <PlusIcon />,
+    })
     reset()
   }
 
@@ -136,7 +167,9 @@ export function IngredientForm() {
           />
         )}
       />
-
+      {errors.root && (
+        <p className="text-red-500 text-sm">{errors.root.message}</p>
+      )}
       <Button
         variant="flat"
         size="lg"

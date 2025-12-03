@@ -1,7 +1,7 @@
-export function SmileIcon() {
+export function HappyFaceIcon() {
   return (
     <svg
-      width="24"
+      width="32"
       height="36"
       viewBox="0 0 56 36"
       fill="none"
