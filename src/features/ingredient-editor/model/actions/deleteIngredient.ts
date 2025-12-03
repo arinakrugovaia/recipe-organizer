@@ -10,6 +10,9 @@ export async function deleteIngredient(id: string) {
     return { success: true, ingredient }
   } catch (error) {
     console.error('Failed to delete ingredient: ', error)
-    return { error: 'Could not delete ingredient. Please try again later.' }
+    return {
+      success: false,
+      error: 'Could not delete ingredient. Please try again later.',
+    }
   }
 }

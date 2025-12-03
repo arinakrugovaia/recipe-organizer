@@ -41,7 +41,7 @@ export const useIngredientStore = create<IngredientState>((set) => ({
       if (result.success) {
         set((state) => ({
           isLoading: false,
-          ingredients: [...state.ingredients, result.ingredient],
+          ingredients: [...state.ingredients, result.ingredient!],
         }))
       } else {
         set({ isLoading: false, error: result.error })

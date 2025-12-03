@@ -8,6 +8,9 @@ export async function getIngredients() {
     return { success: true, ingredients }
   } catch (error) {
     console.error('Failed to fetch ingredients: ', error)
-    return { error: 'Could not load ingredients. Please try again later.' }
+    return {
+      success: false,
+      error: 'Could not load ingredients. Please try again later.',
+    }
   }
 }

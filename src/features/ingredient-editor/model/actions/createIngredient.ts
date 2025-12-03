@@ -24,6 +24,9 @@ export async function createIngredient(formData: IngredientFormType) {
       }
     }
     console.error('Failed to create ingredient: ', error)
-    return { error: 'Failed to create ingredient. Try again later.' }
+    return {
+      success: false,
+      error: 'Failed to create ingredient. Try again later.',
+    }
   }
 }

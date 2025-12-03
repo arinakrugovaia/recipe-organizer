@@ -71,8 +71,10 @@ export function IngredientForm() {
             aria-label="ingredient name"
             label="ingredient name"
             labelPlacement="inside"
+            value={field.value ?? ''}
             errorMessage={fieldState.error?.message}
             isInvalid={!!fieldState.error}
+            autoComplete="on"
           />
         )}
       />
@@ -87,6 +89,7 @@ export function IngredientForm() {
                 isRequired
                 aria-label="category"
                 label="category"
+                name="category"
                 selectedKeys={field.value ? [field.value] : []}
                 onSelectionChange={(keys) => {
                   const value = Array.from(keys)[0] as string
@@ -111,6 +114,7 @@ export function IngredientForm() {
                 isRequired
                 aria-label="unit"
                 label="unit"
+                name="unit"
                 selectedKeys={field.value ? [field.value] : []}
                 onSelectionChange={(keys) => {
                   const value = Array.from(keys)[0] as string
@@ -160,6 +164,7 @@ export function IngredientForm() {
         render={({ field }) => (
           <Textarea
             {...field}
+            name="description"
             aria-label="description"
             label="description (optional)"
             labelPlacement="inside"
