@@ -115,10 +115,13 @@ export function IngredientForm() {
                 aria-label="unit"
                 label="unit"
                 name="unit"
-                selectedKeys={field.value ? [field.value] : []}
+                selectedKeys={field.value ? [field.value] : UnitEnum.GRAMS}
                 onSelectionChange={(keys) => {
-                  const value = Array.from(keys)[0] as string
-                  field.onChange(value)
+                  console.log(Array.from(keys)[0])
+                  const value = Array.from(keys)[0]
+                  if (value) {
+                    field.onChange(value)
+                  }
                 }}
                 errorMessage={fieldState.error?.message}
                 isInvalid={!!fieldState.error}

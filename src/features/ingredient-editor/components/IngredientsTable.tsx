@@ -107,7 +107,7 @@ export function IngredientsTable() {
                   <Button
                     isIconOnly
                     onPress={() => handleDelete(i.id)}
-                    className="text-primary-dark hover:bg-primary-dark hover:text-primary-white transition-colors"
+                    className="bg-light-gray text-primary-dark hover:bg-primary-dark hover:text-primary-white transition-colors"
                   >
                     <DeleteIcon />
                   </Button>

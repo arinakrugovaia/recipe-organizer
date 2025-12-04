@@ -46,8 +46,8 @@ export type IngredientFormType = z.infer<typeof ingredientSchema>
 
 export const recipeSchema = z.object({
   name: z.string().min(1, 'name is required'),
-  description: z.string().min(1, 'description is required'),
-  imageUrl: z.url().nullable().optional(),
+  description: z.string().optional(),
+  imageUrl: z.url().or(z.literal('')).nullable().optional(),
   ingredients: z
     .array(
       z.object({

@@ -8,9 +8,9 @@ export async function middleware(request: NextRequest) {
     secret: process.env.AUTH_SECRET,
   })
 
-  const protectedRoutes = ['/ingredients']
+  const protectedRoutes = ['/ingredients', '/recipes/new', '/recipes/:path*']
   const isProtected = protectedRoutes.some((route) =>
-    pathname.startsWith(route),
+    pathname.startsWith(route.replace(':path*', '')),
   )
 
   if (isProtected && !token) {
@@ -24,5 +24,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/ingredients/:path*'],
+  matcher: ['/ingredients/:path*', '/recipes/:path*'],
 }

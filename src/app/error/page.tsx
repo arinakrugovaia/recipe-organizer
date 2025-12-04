@@ -8,7 +8,6 @@ import Link from 'next/link'
 export default function ErrorPage() {
   const params = useSearchParams()
   const message = params.get('message') || 'Something went wrong.'
-  const redirectTo = params.get('redirectTo') || '/'
 
   return (
     <div className="flex flex-col justify-center items-center gap-2 flex-1">
@@ -22,7 +21,7 @@ export default function ErrorPage() {
         radius="md"
         className="w-full bg-primary-dark text-primary-white transition-colors hover:bg-accent"
         as={Link}
-        href={redirectTo}
+        href="/"
       >
         take me home
       </Button>

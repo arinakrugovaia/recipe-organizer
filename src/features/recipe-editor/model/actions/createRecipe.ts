@@ -10,7 +10,7 @@ export async function createRecipe(formData: RecipeFormType) {
     const recipe = await prisma.recipe.create({
       data: {
         name: parsedData.name,
-        description: parsedData.description,
+        description: parsedData.description || '',
         imageUrl: parsedData.imageUrl,
         ingredients: {
           create: parsedData.ingredients.map(({ ingredientId, quantity }) => ({

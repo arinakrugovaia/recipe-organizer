@@ -48,6 +48,7 @@ export default async function RootLayout({
                   minHeight: `calc(100vh - ${layoutConfig.headerHeight} - ${layoutConfig.footerHeight})`,
                 }}
               >
+                <h1 className="visually-hidden">Recipe organizer</h1>
                 <PageTitle />
                 {children}
               </main>

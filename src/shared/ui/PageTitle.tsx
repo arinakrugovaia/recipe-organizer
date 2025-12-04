@@ -9,14 +9,16 @@ export function PageTitle() {
   const currentSectionItem = siteConfig.navItems.find(
     (item) => item.href === pathname,
   )
-  const pageTitle = currentSectionItem
-    ? currentSectionItem.label
-    : siteConfig.title
+  const pageTitle = currentSectionItem ? currentSectionItem.label : null
 
-  return (
-    <div className="relative w-full flex justify-start items-center gap-3 mt-6 mb-2">
-      <h2 className="text-2xl font-semibold">{pageTitle}</h2>
-      <StarIcon />
-    </div>
-  )
+  if (pageTitle) {
+    return (
+      <div className="relative w-full flex justify-start items-center gap-3 mt-6 mb-2">
+        <h2 className="text-2xl font-semibold">{pageTitle}</h2>
+        <StarIcon />
+      </div>
+    )
+  }
+
+  return null
 }
