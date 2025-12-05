@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 export default function NotFoundPage() {
   return (
-    <div className="flex flex-col justify-center items-center self-center h-full justify-self-center">
+    <div className="flex flex-col justify-center items-center self-center h-full flex-1">
       <h1 className="text-6xl font-bold text-primary-dark mb-4 animate-bounce">
         404
       </h1>
@@ -18,10 +18,11 @@ export default function NotFoundPage() {
         as={Link}
         href="/"
         variant="flat"
-        radius="full"
+        radius="md"
+        size="lg"
         className="bg-primary-dark text-primary-white transition-colors hover:bg-accent"
       >
-        back to recipes
+        take me home
       </Button>
     </div>
   )

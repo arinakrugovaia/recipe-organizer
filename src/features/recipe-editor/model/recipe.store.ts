@@ -8,16 +8,21 @@ import { updateRecipe } from '@/features/recipe-editor/model/actions/updateRecip
 
 interface RecipeState {
   recipes: IRecipe[]
+  filteredRecipes: IRecipe[]
+  searchQuery: string
   isLoading: boolean
   error: string | null
   loadRecipes: () => Promise<void>
   createRecipe: (formData: RecipeFormType) => Promise<void>
   removeRecipe: (id: string) => Promise<void>
   editRecipe: (id: string, formData: RecipeFormType) => Promise<void>
+  setSearchQuery: (query: string) => void
 }
 
-export const useRecipesStore = create<RecipeState>((set) => ({
+export const useRecipesStore = create<RecipeState>((set, get) => ({
   recipes: [],
+  filteredRecipes: [],
+  searchQuery: '',
   isLoading: false,
   error: null,
   loadRecipes: async () => {
@@ -91,5 +96,12 @@ export const useRecipesStore = create<RecipeState>((set) => ({
       console.error('Error: ', err)
       set({ error: 'Failed to update recipe.', isLoading: false })
     }
+  },
+  setSearchQuery: (query: string) => {
+    const { recipes } = get()
+    const filtered = recipes.filter((r) =>
+      r.name.toLowerCase().includes(query.toLowerCase()),
+    )
+    set({ searchQuery: query, filteredRecipes: filtered })
   },
 }))

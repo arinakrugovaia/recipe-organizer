@@ -3,7 +3,7 @@ import { RecipeCard } from '@/features/recipe-editor/components/RecipeCard'
 import { Spinner } from '@heroui/react'
 
 export function RecipesList() {
-  const { recipes, isLoading, error } = useRecipesStore()
+  const { isLoading, error, filteredRecipes, searchQuery } = useRecipesStore()
 
   if (isLoading) {
     return (
@@ -21,11 +21,18 @@ export function RecipesList() {
   return (
     <>
       {error && <p className="text-red-500 text-sm">{error}</p>}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {recipes.map((r) => (
-          <RecipeCard key={r.id} recipe={r} />
-        ))}
-      </div>
+
+      {searchQuery.trim() !== '' && filteredRecipes.length === 0 ? (
+        <div className="text-center text-gray text-base mt-8">
+          <p>No recipes found for {searchQuery}.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {filteredRecipes.map((r) => (
+            <RecipeCard key={r.id} recipe={r} />
+          ))}
+        </div>
+      )}
     </>
   )
 }
