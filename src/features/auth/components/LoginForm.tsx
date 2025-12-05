@@ -1,11 +1,12 @@
 'use client'
 
-import { Form, Button, Input } from '@heroui/react'
+import { Form, Input } from '@heroui/react'
 import { signInWithCredentials } from '@/features/auth/model/actions/signIn'
 import { useSession } from 'next-auth/react'
 import { SignInFormType, signInSchema } from '@/schema/zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { PrimaryButton } from '@/shared/ui/PrimaryButton'
 
 type LoginFormProps = {
   onClose: () => void
@@ -78,15 +79,7 @@ export function LoginForm({ onClose }: LoginFormProps) {
       {errors.root && (
         <p className="text-red-500 text-sm">{errors.root.message}</p>
       )}
-      <Button
-        variant="flat"
-        size="lg"
-        radius="md"
-        className="w-full mt-4 bg-primary-dark text-primary-white transition-colors hover:bg-accent"
-        type="submit"
-      >
-        login
-      </Button>
+      <PrimaryButton text="login" type="submit" className="w-full mt-4" />
     </Form>
   )
 }

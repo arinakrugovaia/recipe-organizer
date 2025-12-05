@@ -17,6 +17,7 @@ interface RecipeState {
   removeRecipe: (id: string) => Promise<void>
   editRecipe: (id: string, formData: RecipeFormType) => Promise<void>
   setSearchQuery: (query: string) => void
+  recalculateFiltered: () => void
 }
 
 export const useRecipesStore = create<RecipeState>((set, get) => ({
@@ -32,6 +33,7 @@ export const useRecipesStore = create<RecipeState>((set, get) => ({
 
       if (result.success) {
         set({ isLoading: false, recipes: result.recipes })
+        get().recalculateFiltered()
       } else {
         set({ isLoading: false, error: result.error })
       }
@@ -70,6 +72,8 @@ export const useRecipesStore = create<RecipeState>((set, get) => ({
           isLoading: false,
           recipes: state.recipes.filter((r) => r.id !== id),
         }))
+
+        get().recalculateFiltered()
       } else {
         set({ isLoading: false, error: result.error })
       }
@@ -98,10 +102,18 @@ export const useRecipesStore = create<RecipeState>((set, get) => ({
     }
   },
   setSearchQuery: (query: string) => {
-    const { recipes } = get()
-    const filtered = recipes.filter((r) =>
-      r.name.toLowerCase().includes(query.toLowerCase()),
-    )
-    set({ searchQuery: query, filteredRecipes: filtered })
+    set({ searchQuery: query })
+    get().recalculateFiltered()
+  },
+  recalculateFiltered: () => {
+    const { recipes, searchQuery } = get()
+
+    const filtered = searchQuery.trim()
+      ? recipes.filter((r) =>
+          r.name.toLowerCase().includes(searchQuery.toLowerCase()),
+        )
+      : recipes
+
+    set({ filteredRecipes: filtered })
   },
 }))

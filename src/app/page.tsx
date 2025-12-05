@@ -20,7 +20,7 @@ export default function HomePage() {
             size="lg"
             radius="md"
             isIconOnly
-            className="bg-light-gray text-gray hover:bg-primary-dark hover:text-primary-white transition-colors"
+            className="bg-light-gray text-gray hover:bg-accent hover:text-primary-white transition-colors"
           >
             <AddIcon />
           </Button>

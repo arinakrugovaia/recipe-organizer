@@ -16,8 +16,8 @@ import {
 } from '@heroui/react'
 import { getCategoryLabel, getUnitLabel } from '@/shared/lib/ingredient'
 import { DeleteIcon } from '@/shared/icons/DeleteIcon'
-import { CrossIcon } from '@/shared/icons/CrossIcon'
 import { useState } from 'react'
+import { TOASTS_CONTENT } from '@/shared/constants/toasts'
 
 const columns = [
   { key: 'ingredient', label: 'ingredient' },
@@ -44,11 +44,7 @@ export function IngredientsTable() {
       return
     }
 
-    addToast({
-      title: 'ingredient deleted 🗑️',
-      description: 'Ingredient has been successfully removed from your list.',
-      icon: <CrossIcon />,
-    })
+    addToast(TOASTS_CONTENT.DELETE_INGREDIENT)
   }
 
   if (isLoading) {
@@ -103,11 +99,11 @@ export function IngredientsTable() {
               </TableCell>
               <TableCell>{i.description || '-'}</TableCell>
               <TableCell>
-                <Tooltip content="delete ingredient" delay={300}>
+                <Tooltip content="delete ingredient" delay={500}>
                   <Button
                     isIconOnly
                     onPress={() => handleDelete(i.id)}
-                    className="bg-light-gray text-primary-dark hover:bg-primary-dark hover:text-primary-white transition-colors"
+                    className="bg-light-gray text-gray hover:bg-accent hover:text-primary-white transition-colors"
                   >
                     <DeleteIcon />
                   </Button>

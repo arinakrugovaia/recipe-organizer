@@ -5,7 +5,6 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Button,
 } from '@heroui/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -18,6 +17,8 @@ import { LoginModal } from '@/features/auth/components/LoginModal'
 import { useState } from 'react'
 import { signOutUser } from '@/features/auth/model/actions/signOut'
 import { useAuthStore } from '@/features/auth/model/auth.store'
+import { PrimaryButton } from '@/shared/ui/PrimaryButton'
+import { SecondaryButton } from '@/shared/ui/SecondaryButton'
 
 export const Logo = () => {
   return (
@@ -95,45 +96,33 @@ export default function Header() {
         {isAuth && <p>Hello, {session?.user?.email}!</p>}
         {isAuth ? (
           <NavbarItem className="hidden lg:flex">
-            <Button
+            <PrimaryButton
               as={Link}
               href="#"
-              variant="flat"
-              radius="md"
-              className="bg-primary-dark text-primary-white transition-colors hover:bg-accent"
+              text="logout"
               onPress={handleSignOut}
-            >
-              logout
-            </Button>
+              size="md"
+            />
           </NavbarItem>
         ) : (
           <>
             <NavbarItem className="hidden lg:flex">
-              <Button
+              <PrimaryButton
                 as={Link}
                 href="#"
-                variant="flat"
-                radius="md"
-                className="bg-primary-dark text-primary-white transition-colors hover:bg-accent"
+                text="login"
                 onPress={() => setIsLoginOpen(true)}
-              >
-                login
-              </Button>
+                size="md"
+              />
             </NavbarItem>
             <NavbarItem>
-              <Button
+              <SecondaryButton
                 as={Link}
                 href="#"
-                variant="bordered"
-                radius="md"
-                className={twMerge(
-                  'border-1 border-primary-dark text-primary-dark transition-colors',
-                  'hover:border-accent hover:text-accent-dark',
-                )}
-                onPress={() => setIsRegisterOpen(true)}
-              >
-                sign up
-              </Button>
+                text="sign up"
+                action={() => setIsRegisterOpen(true)}
+                size="md"
+              />
             </NavbarItem>
           </>
         )}

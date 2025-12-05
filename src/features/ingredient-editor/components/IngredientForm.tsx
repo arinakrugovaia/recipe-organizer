@@ -1,192 +1,75 @@
 'use client'
 
-import {
-  Form,
-  Button,
-  Input,
-  Select,
-  SelectItem,
-  addToast,
-} from '@heroui/react'
+import { Form } from '@heroui/react'
 import {
   CATEGORY_OPTIONS,
   UNIT_OPTIONS,
 } from '@/shared/constants/selectOptions'
-import { Textarea } from '@heroui/input'
-import { IngredientFormType, ingredientSchema } from '@/schema/zod'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { CategoryEnum, UnitEnum } from '@/shared/types/ingredients'
-import { PlusIcon } from '@/shared/icons/PlusIcon'
-import { useIngredientStore } from '@/features/ingredient-editor/model/ingredient.store'
+import { ControlledTextInput } from '@/shared/ui/ControlledTextInput'
+import { ControlledTextarea } from '@/shared/ui/ControlledTextarea'
+import { PrimaryButton } from '@/shared/ui/PrimaryButton'
+import { ControlledSelect } from '@/shared/ui/ControlledSelect'
+import { ControlledNumberInput } from '@/shared/ui/ControlledNumberInput'
+import { useIngredientForm } from '@/features/ingredient-editor/model/hooks/useIngredientForm'
 
 export function IngredientForm() {
   const {
+    formState: { errors },
     control,
     handleSubmit,
-    reset,
-    setError,
-    clearErrors,
-    formState: { errors },
-  } = useForm<IngredientFormType>({
-    resolver: zodResolver(ingredientSchema),
-    defaultValues: {
-      name: '',
-      category: CategoryEnum.VEGETABLES,
-      unit: UnitEnum.GRAMS,
-      pricePerUnit: null,
-      description: '',
-    },
-  })
-  const { createIngredient } = useIngredientStore()
-
-  const onSubmit = async (data: IngredientFormType) => {
-    clearErrors('root')
-
-    await createIngredient(data)
-    const storeError = useIngredientStore.getState().error
-
-    if (storeError) {
-      setError('root', { type: 'server', message: storeError })
-      return
-    }
-
-    addToast({
-      title: 'new ingredient cr️eated! 🎉',
-      description: 'Ingredient added! You can now use it in recipes.',
-      icon: <PlusIcon />,
-    })
-    reset()
-  }
+    onSubmit,
+  } = useIngredientForm()
 
   return (
     <Form className="max-w-[480px] w-full" onSubmit={handleSubmit(onSubmit)}>
-      <Controller
+      <ControlledTextInput
         control={control}
         name="name"
-        render={({ field, fieldState }) => (
-          <Input
-            {...field}
-            isRequired
-            aria-label="ingredient name"
-            label="ingredient name"
-            labelPlacement="inside"
-            value={field.value ?? ''}
-            errorMessage={fieldState.error?.message}
-            isInvalid={!!fieldState.error}
-            autoComplete="on"
-          />
-        )}
+        label="ingredient name"
+        isRequired={true}
       />
-
       <div className="flex gap-2 w-full items-center">
         <div className="w-1/3">
-          <Controller
+          <ControlledSelect
             control={control}
             name="category"
-            render={({ field, fieldState }) => (
-              <Select
-                isRequired
-                aria-label="category"
-                label="category"
-                name="category"
-                selectedKeys={field.value ? [field.value] : []}
-                onSelectionChange={(keys) => {
-                  const value = Array.from(keys)[0] as string
-                  field.onChange(value)
-                }}
-                errorMessage={fieldState.error?.message}
-                isInvalid={!!fieldState.error}
-              >
-                {CATEGORY_OPTIONS.map((option) => (
-                  <SelectItem key={option.value}>{option.label}</SelectItem>
-                ))}
-              </Select>
-            )}
+            label="category"
+            isRequired
+            options={CATEGORY_OPTIONS}
           />
         </div>
         <div className="w-1/3">
-          <Controller
+          <ControlledSelect
             control={control}
             name="unit"
-            render={({ field, fieldState }) => (
-              <Select
-                isRequired
-                aria-label="unit"
-                label="unit"
-                name="unit"
-                selectedKeys={field.value ? [field.value] : UnitEnum.GRAMS}
-                onSelectionChange={(keys) => {
-                  console.log(Array.from(keys)[0])
-                  const value = Array.from(keys)[0]
-                  if (value) {
-                    field.onChange(value)
-                  }
-                }}
-                errorMessage={fieldState.error?.message}
-                isInvalid={!!fieldState.error}
-              >
-                {UNIT_OPTIONS.map((option) => (
-                  <SelectItem key={option.value}>{option.label}</SelectItem>
-                ))}
-              </Select>
-            )}
+            label="unit"
+            isRequired
+            options={UNIT_OPTIONS}
           />
         </div>
         <div className="w-1/3">
-          <Controller
+          <ControlledNumberInput
             control={control}
             name="pricePerUnit"
-            render={({ field, fieldState }) => (
-              <Input
-                isRequired
-                type="number"
-                aria-label="price per unit"
-                label="price per unit"
-                labelPlacement="inside"
-                value={field.value ? field.value.toString() : ''}
-                onChange={(e) => {
-                  const value = e.target.value
-                  field.onChange(value ? Number(value) : null)
-                }}
-                errorMessage={fieldState.error?.message}
-                isInvalid={!!fieldState.error}
-                endContent={
-                  field.value ? (
-                    <span className="text-gray-500 pr-1">$</span>
-                  ) : null
-                }
-              />
-            )}
+            label="price per unit"
+            isRequired
+            endContent={<span className="text-gray-500 pr-1">$</span>}
           />
         </div>
       </div>
-      <Controller
+      <ControlledTextarea
         control={control}
         name="description"
-        render={({ field }) => (
-          <Textarea
-            {...field}
-            name="description"
-            aria-label="description"
-            label="description (optional)"
-            labelPlacement="inside"
-            size="sm"
-          />
-        )}
+        label="description (optional)"
       />
       {errors.root && (
         <p className="text-red-500 text-sm">{errors.root.message}</p>
       )}
-      <Button
-        variant="flat"
-        size="lg"
-        radius="md"
+      <PrimaryButton
+        text="add ingredient"
         type="submit"
-        className="w-full bg-primary-dark text-primary-white transition-colors hover:bg-accent"
-      >
-        add ingredient
-      </Button>
+        style={{ width: '100%' }}
+      />
     </Form>
   )
 }

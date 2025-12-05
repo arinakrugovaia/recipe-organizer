@@ -51,7 +51,7 @@ export const recipeSchema = z.object({
   ingredients: z
     .array(
       z.object({
-        ingredientId: z.string().min(1, 'ingredient ID is required'),
+        ingredientId: z.string().min(1, 'ingredient is required'),
         quantity: z.number().positive('quantity must be positive'),
       }),
     )

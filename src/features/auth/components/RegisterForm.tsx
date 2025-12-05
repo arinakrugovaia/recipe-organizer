@@ -1,11 +1,12 @@
 'use client'
 
-import { Form, Button, Input, addToast } from '@heroui/react'
+import { Form, Input, addToast } from '@heroui/react'
 import { registerUsers } from '@/features/auth/model/actions/register'
 import { SignUpFormType, signUpSchema } from '@/schema/zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { HeartIcon } from '@/shared/icons/HeartIcon'
+import { PrimaryButton } from '@/shared/ui/PrimaryButton'
+import { TOASTS_CONTENT } from '@/shared/constants/toasts'
 
 type RegisterFormProps = {
   onClose: () => void
@@ -36,11 +37,7 @@ export function RegisterForm({ onClose }: RegisterFormProps) {
       return
     }
 
-    addToast({
-      title: 'successful registration! ❤️',
-      description: 'You successfully created a new account. You can login now.',
-      icon: <HeartIcon />,
-    })
+    addToast(TOASTS_CONTENT.SUCCESSFUL_REGISTRATION)
     onClose()
     reset()
   }
@@ -99,15 +96,11 @@ export function RegisterForm({ onClose }: RegisterFormProps) {
       {errors.root && (
         <p className="text-red-500 text-sm">{errors.root.message}</p>
       )}
-      <Button
-        variant="flat"
-        size="md"
-        radius="full"
-        className="w-full mt-4 bg-primary-dark text-primary-white transition-colors hover:bg-accent"
+      <PrimaryButton
+        text="register now"
         type="submit"
-      >
-        register now
-      </Button>
+        className="w-full mt-4"
+      />
     </Form>
   )
 }

@@ -10,9 +10,9 @@ export function AddIcon() {
       <path
         d="M5 12H12M12 12H19M12 12V5M12 12V19"
         stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   )
