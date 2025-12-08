@@ -6,8 +6,22 @@ import Link from 'next/link'
 import { RecipesList } from '@/features/recipe-editor/components/RecipesList'
 import { AddIcon } from '@/shared/icons/AddIcon'
 import { RecipeSearch } from '@/features/recipe-editor/components/RecipeSearch'
+import { useSession } from 'next-auth/react'
 
 export default function HomePage() {
+  const { data: session } = useSession()
+
+  if (!session) {
+    return (
+      <section className="flex flex-col gap-8 w-full text-gray">
+        <p>
+          discover sample recipes, get inspired, and create your own collection
+          once you <span className="font-bold text-accent">sign up</span>!
+        </p>
+      </section>
+    )
+  }
+
   return (
     <section className="flex flex-col gap-8 w-full text-gray">
       <p>{pagesContent.recipes.description}</p>

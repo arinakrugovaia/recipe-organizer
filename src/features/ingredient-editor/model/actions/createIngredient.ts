@@ -3,10 +3,17 @@
 import { IngredientFormType, ingredientSchema } from '@/schema/zod'
 import { ZodError } from 'zod'
 import prisma from '@/shared/lib/prisma'
+import { auth } from '@/features/auth/auth'
 
 export async function createIngredient(formData: IngredientFormType) {
   try {
+    const session = await auth()
+    if (!session?.user?.id) {
+      return { success: false, error: 'Unauthorized' }
+    }
+
     const parsedData = ingredientSchema.parse(formData)
+
     const ingredient = await prisma.ingredient.create({
       data: {
         name: parsedData.name,
@@ -14,8 +21,10 @@ export async function createIngredient(formData: IngredientFormType) {
         unit: parsedData.unit,
         pricePerUnit: parsedData.pricePerUnit,
         description: parsedData.description,
+        userId: session.user.id,
       },
     })
+
     return { success: true, ingredient }
   } catch (error) {
     if (error instanceof ZodError) {

@@ -8,13 +8,15 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  email     String    @unique
-  password  String
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  accounts  Account[]
-  sessions  Session[]
+  id         String       @id @default(uuid())
+  email      String       @unique
+  password   String
+  createdAt  DateTime     @default(now()) @map("created_at")
+  updatedAt  DateTime     @updatedAt @map("updated_at")
+  accounts   Account[]
+  sessions   Session[]
+  Ingredient Ingredient[]
+  Recipe     Recipe[]
 
   @@map("users")
 }
@@ -50,6 +52,8 @@ model Ingredient {
   description  String?
   createdAt    DateTime           @default(now()) @map("created_at")
   updatedAt    DateTime           @updatedAt @map("updated_at")
+  user         User               @relation(fields: [userId], references: [id])
+  userId       String
   recipes      RecipeIngredient[]
 
   @@map("ingredients")
@@ -60,6 +64,8 @@ model Recipe {
   name        String
   description String
   imageUrl    String?            @map("image_url")
+  user        User               @relation(fields: [userId], references: [id])
+  userId      String
   ingredients RecipeIngredient[]
 
   @@map("recipes")

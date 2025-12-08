@@ -3,10 +3,38 @@
 import { RecipeFormType, recipeSchema } from '@/schema/zod'
 import prisma from '@/shared/lib/prisma'
 import { ZodError } from 'zod'
+import { auth } from '@/features/auth/auth'
 
 export async function updateRecipe(id: string, formData: RecipeFormType) {
   try {
+    const session = await auth()
+    if (!session?.user?.id) {
+      return { success: false, error: 'Unauthorized' }
+    }
+
+    const userId = session.user.id
+
+    const existingRecipe = await prisma.recipe.findFirst({
+      where: { id, userId },
+    })
+    if (!existingRecipe) {
+      return { success: false, error: 'Recipe not found' }
+    }
+
     const parsedData = recipeSchema.parse(formData)
+
+    const ingredientIDs = parsedData.ingredients.map((i) => i.ingredientId)
+    const userIngredients = await prisma.ingredient.findMany({
+      where: {
+        id: { in: ingredientIDs },
+        userId,
+      },
+      select: { id: true },
+    })
+    if (userIngredients.length !== ingredientIDs.length) {
+      return { success: false, error: 'One or more ingredients not found' }
+    }
+
     const recipe = await prisma.recipe.update({
       where: { id },
       data: {

@@ -12,6 +12,7 @@ interface IngredientState {
   loadIngredients: () => Promise<void>
   createIngredient: (formData: IngredientFormType) => Promise<void>
   removeIngredient: (id: string) => Promise<void>
+  resetIngredients: () => void
 }
 
 export const useIngredientStore = create<IngredientState>((set) => ({
@@ -68,5 +69,12 @@ export const useIngredientStore = create<IngredientState>((set) => ({
       console.error('Error: ', err)
       set({ error: 'Failed to delete ingredient.', isLoading: false })
     }
+  },
+  resetIngredients: () => {
+    set({
+      ingredients: [],
+      isLoading: false,
+      error: null,
+    })
   },
 }))

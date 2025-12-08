@@ -18,6 +18,7 @@ interface RecipeState {
   editRecipe: (id: string, formData: RecipeFormType) => Promise<void>
   setSearchQuery: (query: string) => void
   recalculateFiltered: () => void
+  resetRecipes: () => void
 }
 
 export const useRecipesStore = create<RecipeState>((set, get) => ({
@@ -115,5 +116,14 @@ export const useRecipesStore = create<RecipeState>((set, get) => ({
       : recipes
 
     set({ filteredRecipes: filtered })
+  },
+  resetRecipes: () => {
+    set({
+      recipes: [],
+      filteredRecipes: [],
+      searchQuery: '',
+      isLoading: false,
+      error: null,
+    })
   },
 }))

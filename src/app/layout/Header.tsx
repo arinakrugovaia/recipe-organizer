@@ -1,11 +1,6 @@
 'use client'
 
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-} from '@heroui/react'
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'

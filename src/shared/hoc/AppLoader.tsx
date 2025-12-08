@@ -12,23 +12,27 @@ type appLoaderProps = {
 
 export function AppLoader({ children }: appLoaderProps) {
   const { data: session, status } = useSession()
-  const { isAuth, setAuthState } = useAuthStore()
-  const { loadIngredients } = useIngredientStore()
-  const { loadRecipes } = useRecipesStore()
+  const { setAuthState } = useAuthStore()
+  const { loadIngredients, resetIngredients } = useIngredientStore()
+  const { loadRecipes, resetRecipes } = useRecipesStore()
 
   useEffect(() => {
     setAuthState(status, session)
   }, [status, session, setAuthState])
 
   useEffect(() => {
-    if (isAuth) {
+    if (status === 'authenticated') {
       loadIngredients()
+      loadRecipes()
     }
-  }, [isAuth, loadIngredients])
+  }, [status, loadIngredients, loadRecipes])
 
   useEffect(() => {
-    loadRecipes()
-  }, [loadRecipes])
+    if (status === 'unauthenticated') {
+      resetIngredients()
+      resetRecipes()
+    }
+  }, [status, resetIngredients, resetRecipes])
 
   return <>{children}</>
 }
