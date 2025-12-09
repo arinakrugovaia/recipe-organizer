@@ -48,6 +48,7 @@ export const recipeSchema = z.object({
   name: z.string().min(1, 'name is required'),
   description: z.string().optional(),
   imageUrl: z.url().or(z.literal('')).nullable().optional(),
+  isPublic: z.boolean(),
   ingredients: z
     .array(
       z.object({

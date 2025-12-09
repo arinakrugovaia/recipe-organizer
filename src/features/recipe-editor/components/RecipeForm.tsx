@@ -8,6 +8,7 @@ import { IngredientRow } from '@/features/recipe-editor/components/IngredientRow
 import { PrimaryButton } from '@/shared/ui/PrimaryButton'
 import { SecondaryButton } from '@/shared/ui/SecondaryButton'
 import { useRecipeForm } from '@/features/recipe-editor/model/hooks/useRecipeForm'
+import { ControlledCheckbox } from '@/shared/ui/ControlledCheckbox'
 
 interface RecipeFromProps {
   initialRecipe?: IRecipe
@@ -28,6 +29,11 @@ export function RecipeForm({ initialRecipe }: RecipeFromProps) {
 
   return (
     <Form className="max-w-[480px] w-full" onSubmit={handleSubmit(onSubmit)}>
+      <ControlledCheckbox
+        control={control}
+        name="isPublic"
+        label="make recipe public"
+      />
       <ControlledTextInput
         control={control}
         name="name"

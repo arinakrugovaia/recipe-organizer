@@ -19,6 +19,7 @@ export function useRecipeForm(initialRecipe?: IRecipe) {
       name: initialRecipe?.name || '',
       description: initialRecipe?.description || '',
       imageUrl: initialRecipe?.imageUrl || '',
+      isPublic: initialRecipe?.isPublic || true,
       ingredients: initialRecipe?.ingredients
         ? initialRecipe.ingredients.map((i) => ({
             ingredientId: i.ingredientId,

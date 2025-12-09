@@ -20,8 +20,14 @@ import { useState } from 'react'
 import { getUnitLabel } from '@/shared/lib/ingredient'
 import { DeleteRecipeModal } from '@/features/recipe-editor/components/DeleteRecipeModal'
 
-export function RecipeCard({ recipe }: { recipe: IRecipe }) {
-  const { id, name, description, imageUrl, ingredients } = recipe
+interface RecipeCardProps {
+  recipe: IRecipe
+  isOwned: boolean
+  owner?: string
+}
+
+export function RecipeCard({ recipe, isOwned, owner }: RecipeCardProps) {
+  const { id, name, description, imageUrl, ingredients, isPublic } = recipe
   const { removeRecipe } = useRecipesStore()
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
@@ -55,37 +61,50 @@ export function RecipeCard({ recipe }: { recipe: IRecipe }) {
             height={160}
           />
           <div className="flex w-full items-center gap-2">
-            <h3 className="text-xl text-primary-dark mr-auto">{name}</h3>
-            <Tooltip content="edit recipe" delay={500}>
-              <Button
-                as={Link}
-                href={`/recipes/${recipe.id}`}
-                isIconOnly
-                size="md"
-                radius="sm"
-                type="button"
-                className="bg-light-gray text-gray hover:bg-accent hover:text-primary-white transition-colors"
-              >
-                <EditIcon />
-              </Button>
-            </Tooltip>
-            <Tooltip content="delete recipe" delay={500}>
-              <Button
-                isIconOnly
-                size="md"
-                radius="sm"
-                type="button"
-                onPress={() => setIsDeleteModalOpen(true)}
-                className="bg-light-gray text-gray hover:bg-accent hover:text-primary-white transition-colors"
-              >
-                <DeleteIcon />
-              </Button>
-            </Tooltip>
+            <div className="mr-auto">
+              <h3 className="text-xl text-primary-dark">{name}</h3>
+              {isOwned ? (
+                <span className="text-accent">
+                  {isPublic ? 'public' : 'private'}
+                </span>
+              ) : (
+                <span className="text-accent">by {owner}</span>
+              )}
+            </div>
+            {isOwned && (
+              <>
+                <Tooltip content="edit recipe" delay={500}>
+                  <Button
+                    as={Link}
+                    href={`/recipes/${recipe.id}`}
+                    isIconOnly
+                    size="md"
+                    radius="sm"
+                    type="button"
+                    className="bg-light-gray text-gray hover:bg-accent hover:text-primary-white transition-colors"
+                  >
+                    <EditIcon />
+                  </Button>
+                </Tooltip>
+                <Tooltip content="delete recipe" delay={500}>
+                  <Button
+                    isIconOnly
+                    size="md"
+                    radius="sm"
+                    type="button"
+                    onPress={() => setIsDeleteModalOpen(true)}
+                    className="bg-light-gray text-gray hover:bg-accent hover:text-primary-white transition-colors"
+                  >
+                    <DeleteIcon />
+                  </Button>
+                </Tooltip>
+              </>
+            )}
           </div>
         </CardHeader>
         <Divider />
-        <CardBody className="flex flex-col gap-2">
-          <p>{description || 'No description'}</p>
+        <CardBody className="flex flex-col gap-2 card-scroll">
+          <p>{description || 'no description'}</p>
           <h4 className="text-base text-primary-dark">ingredients:</h4>
           <ul>
             {ingredients.map((i) => (

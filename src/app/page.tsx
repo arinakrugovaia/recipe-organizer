@@ -7,17 +7,21 @@ import { RecipesList } from '@/features/recipe-editor/components/RecipesList'
 import { AddIcon } from '@/shared/icons/AddIcon'
 import { RecipeSearch } from '@/features/recipe-editor/components/RecipeSearch'
 import { useSession } from 'next-auth/react'
+import { useRecipesStore } from '@/features/recipe-editor/model/recipe.store'
 
 export default function HomePage() {
+  const { filteredUserRecipes, filteredPublicRecipes } = useRecipesStore()
   const { data: session } = useSession()
 
   if (!session) {
     return (
       <section className="flex flex-col gap-8 w-full text-gray">
         <p>
-          discover sample recipes, get inspired, and create your own collection
-          once you <span className="font-bold text-accent">sign up</span>!
+          discover delicious recipes from our community, get inspired, and
+          create your own collection once you{' '}
+          <span className="font-bold text-accent">sign up</span>!
         </p>
+        <RecipesList recipes={filteredPublicRecipes} />
       </section>
     )
   }
@@ -40,7 +44,10 @@ export default function HomePage() {
           </Button>
         </Tooltip>
       </div>
-      <RecipesList />
+      <h3 className="text-xl text-primary-dark">my recipes</h3>
+      <RecipesList recipes={filteredUserRecipes} isOwned />
+      <h3 className="text-xl text-primary-dark">public recipes</h3>
+      <RecipesList recipes={filteredPublicRecipes} />
     </section>
   )
 }

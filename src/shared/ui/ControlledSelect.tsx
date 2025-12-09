@@ -28,8 +28,10 @@ export function ControlledSelect<T extends FieldValues>({
           name={label}
           selectedKeys={field.value ? [field.value] : []}
           onSelectionChange={(keys) => {
-            const value = Array.from(keys)[0] as string
-            field.onChange(value)
+            const key = Array.from(keys)[0]
+            const safeValue = key ?? field.value
+
+            field.onChange(safeValue)
           }}
           errorMessage={fieldState.error?.message}
           isInvalid={!!fieldState.error}

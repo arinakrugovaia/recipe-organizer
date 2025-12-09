@@ -14,6 +14,7 @@ import { signOutUser } from '@/features/auth/model/actions/signOut'
 import { useAuthStore } from '@/features/auth/model/auth.store'
 import { PrimaryButton } from '@/shared/ui/PrimaryButton'
 import { SecondaryButton } from '@/shared/ui/SecondaryButton'
+import { maskEmail } from '@/shared/lib/email'
 
 export const Logo = () => {
   return (
@@ -42,6 +43,7 @@ export default function Header() {
     }
 
     setAuthState('unauthenticated', null)
+    window.location.reload()
   }
 
   const getNavItems = () => {
@@ -88,7 +90,7 @@ export default function Header() {
       </NavbarContent>
 
       <NavbarContent justify="end">
-        {isAuth && <p>Hello, {session?.user?.email}!</p>}
+        {isAuth && <p>Hello, {maskEmail(session?.user?.email)}!</p>}
         {isAuth ? (
           <NavbarItem className="hidden lg:flex">
             <PrimaryButton

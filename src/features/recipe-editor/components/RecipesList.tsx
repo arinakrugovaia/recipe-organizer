@@ -1,35 +1,38 @@
 import { useRecipesStore } from '@/features/recipe-editor/model/recipe.store'
 import { RecipeCard } from '@/features/recipe-editor/components/RecipeCard'
-import { Spinner } from '@heroui/react'
+import { IRecipe } from '@/shared/types/recipes'
 
-export function RecipesList() {
-  const { isLoading, error, filteredRecipes, searchQuery } = useRecipesStore()
+interface RecipesListProps {
+  recipes: IRecipe[]
+  isOwned?: boolean
+}
 
-  if (isLoading) {
+export function RecipesList({ recipes, isOwned = false }: RecipesListProps) {
+  const { searchQuery } = useRecipesStore()
+
+  if (searchQuery.trim() === '' && recipes.length === 0) {
     return (
-      <Spinner
-        label="loading ingredients..."
-        variant="wave"
-        classNames={{
-          dots: 'bg-accent',
-          label: 'text-gray',
-        }}
-      />
+      <div className="text-center text-gray text-base my-6">
+        <p>📦 no recipes yet</p>
+      </div>
     )
   }
 
   return (
     <>
-      {error && <p className="text-red-500 text-sm">{error}</p>}
-
-      {searchQuery.trim() !== '' && filteredRecipes.length === 0 ? (
-        <div className="text-center text-gray text-base mt-8">
-          <p>No recipes found for {searchQuery}.</p>
+      {searchQuery.trim() !== '' && recipes.length === 0 ? (
+        <div className="text-center text-gray text-base mt-6">
+          <p>no recipes found for {searchQuery}</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {filteredRecipes.map((r) => (
-            <RecipeCard key={r.id} recipe={r} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+          {recipes.map((r) => (
+            <RecipeCard
+              key={r.id}
+              recipe={r}
+              isOwned={isOwned}
+              owner={r.user?.email || 'user'}
+            />
           ))}
         </div>
       )}

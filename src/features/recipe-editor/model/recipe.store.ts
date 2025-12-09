@@ -7,8 +7,10 @@ import { deleteRecipe } from '@/features/recipe-editor/model/actions/deleteRecip
 import { updateRecipe } from '@/features/recipe-editor/model/actions/updateRecipe'
 
 interface RecipeState {
-  recipes: IRecipe[]
-  filteredRecipes: IRecipe[]
+  userRecipes: IRecipe[]
+  filteredUserRecipes: IRecipe[]
+  publicRecipes: IRecipe[]
+  filteredPublicRecipes: IRecipe[]
   searchQuery: string
   isLoading: boolean
   error: string | null
@@ -22,8 +24,10 @@ interface RecipeState {
 }
 
 export const useRecipesStore = create<RecipeState>((set, get) => ({
-  recipes: [],
-  filteredRecipes: [],
+  userRecipes: [],
+  filteredUserRecipes: [],
+  publicRecipes: [],
+  filteredPublicRecipes: [],
   searchQuery: '',
   isLoading: false,
   error: null,
@@ -33,7 +37,11 @@ export const useRecipesStore = create<RecipeState>((set, get) => ({
       const result = await getRecipes()
 
       if (result.success) {
-        set({ isLoading: false, recipes: result.recipes })
+        set({
+          isLoading: false,
+          userRecipes: result.userRecipes,
+          publicRecipes: result.publicRecipes,
+        })
         get().recalculateFiltered()
       } else {
         set({ isLoading: false, error: result.error })
@@ -52,8 +60,10 @@ export const useRecipesStore = create<RecipeState>((set, get) => ({
       if (result.success) {
         set((state) => ({
           isLoading: false,
-          recipes: [...state.recipes, result.recipe!],
+          userRecipes: [...state.userRecipes, result.recipe!],
         }))
+
+        get().recalculateFiltered()
       } else {
         set({ isLoading: false, error: result.error })
       }
@@ -71,7 +81,7 @@ export const useRecipesStore = create<RecipeState>((set, get) => ({
       if (result.success) {
         set((state) => ({
           isLoading: false,
-          recipes: state.recipes.filter((r) => r.id !== id),
+          userRecipes: state.userRecipes.filter((r) => r.id !== id),
         }))
 
         get().recalculateFiltered()
@@ -92,7 +102,9 @@ export const useRecipesStore = create<RecipeState>((set, get) => ({
       if (result.success) {
         set((state) => ({
           isLoading: false,
-          recipes: state.recipes.map((r) => (r.id === id ? result.recipe! : r)),
+          userRecipes: state.userRecipes.map((r) =>
+            r.id === id ? result.recipe! : r,
+          ),
         }))
       } else {
         set({ isLoading: false, error: result.error })
@@ -107,20 +119,31 @@ export const useRecipesStore = create<RecipeState>((set, get) => ({
     get().recalculateFiltered()
   },
   recalculateFiltered: () => {
-    const { recipes, searchQuery } = get()
+    const { userRecipes, publicRecipes, searchQuery } = get()
 
-    const filtered = searchQuery.trim()
-      ? recipes.filter((r) =>
+    const filteredUser = searchQuery.trim()
+      ? userRecipes.filter((r) =>
           r.name.toLowerCase().includes(searchQuery.toLowerCase()),
         )
-      : recipes
+      : userRecipes
 
-    set({ filteredRecipes: filtered })
+    const filteredPublic = searchQuery.trim()
+      ? publicRecipes.filter((r) =>
+          r.name.toLowerCase().includes(searchQuery.toLowerCase()),
+        )
+      : publicRecipes
+
+    set({
+      filteredUserRecipes: filteredUser,
+      filteredPublicRecipes: filteredPublic,
+    })
   },
   resetRecipes: () => {
     set({
-      recipes: [],
-      filteredRecipes: [],
+      userRecipes: [],
+      filteredUserRecipes: [],
+      publicRecipes: [],
+      filteredPublicRecipes: [],
       searchQuery: '',
       isLoading: false,
       error: null,

@@ -34,6 +34,7 @@ export async function createRecipe(formData: RecipeFormType) {
         name: parsedData.name,
         description: parsedData.description || '',
         imageUrl: parsedData.imageUrl,
+        isPublic: parsedData.isPublic,
         ingredients: {
           create: parsedData.ingredients.map(({ ingredientId, quantity }) => ({
             ingredient: { connect: { id: ingredientId } },

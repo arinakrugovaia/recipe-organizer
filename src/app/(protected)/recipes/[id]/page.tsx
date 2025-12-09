@@ -2,29 +2,22 @@
 
 import { useParams } from 'next/navigation'
 import { useRecipesStore } from '@/features/recipe-editor/model/recipe.store'
-import { useEffect, useState } from 'react'
-import { IRecipe } from '@/shared/types/recipes'
+import { useMemo } from 'react'
 import { Spinner } from '@heroui/react'
 import { RecipeForm } from '@/features/recipe-editor/components/RecipeForm'
 import { StarIcon } from '@/shared/icons/StarIcon'
 
 export default function EditRecipePage() {
   const { id } = useParams<{ id: string }>()
+  const { userRecipes, isLoading, error } = useRecipesStore()
 
-  const { recipes, isLoading, error } = useRecipesStore()
-  const [recipe, setRecipe] = useState<IRecipe | null>(null)
+  const recipe = useMemo(() => {
+    return userRecipes.find((r) => r.id === id) || null
+  }, [userRecipes, id])
 
-  useEffect(() => {
-    if (recipes.length > 0) {
-      if (isLoading) return
-      if (!recipes.length) return
+  if (error) return <p className="text-red-500 text-sm">{error}</p>
 
-      const found = recipes.find((r) => r.id === id) || null
-      setRecipe(found)
-    }
-  }, [recipes, id])
-
-  if (isLoading) {
+  if (isLoading && userRecipes.length === 0) {
     return (
       <Spinner
         label="loading recipe..."
@@ -36,11 +29,12 @@ export default function EditRecipePage() {
       />
     )
   }
-  if (error) return <p className="text-red-500 text-sm">{error}</p>
-  if (recipes.length > 0 && !recipe)
+
+  if (!isLoading && userRecipes.length > 0 && !recipe)
     return (
       <p className="text-red-500 text-sm">Recipe not found. Try again later.</p>
     )
+
   if (!recipe) {
     return (
       <Spinner

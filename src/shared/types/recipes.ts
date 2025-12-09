@@ -12,5 +12,11 @@ export interface IRecipe {
   name: string
   description: string
   imageUrl?: string | null
+  isPublic: boolean
   ingredients: IRecipeIngredient[]
+  userId: string
+  user?: {
+    id: string
+    email: string
+  }
 }

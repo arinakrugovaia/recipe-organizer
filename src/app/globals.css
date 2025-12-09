@@ -47,6 +47,19 @@ body {
     Arial;
 }
 
+.card-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.card-scroll::-webkit-scrollbar-thumb {
+  background: #e0e0e0;
+  border-radius: 100px;
+}
+
+.card-scroll:hover::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+}
+
 .visually-hidden {
   position: absolute !important;
   width: 1px;

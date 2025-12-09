@@ -41,6 +41,7 @@ export async function updateRecipe(id: string, formData: RecipeFormType) {
         name: parsedData.name,
         description: parsedData.description,
         imageUrl: parsedData.imageUrl,
+        isPublic: parsedData.isPublic,
         ingredients: {
           deleteMany: { recipeId: id },
           create: parsedData.ingredients.map(({ ingredientId, quantity }) => ({

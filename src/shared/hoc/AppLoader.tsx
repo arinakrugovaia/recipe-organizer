@@ -21,9 +21,10 @@ export function AppLoader({ children }: appLoaderProps) {
   }, [status, session, setAuthState])
 
   useEffect(() => {
+    loadRecipes()
+
     if (status === 'authenticated') {
       loadIngredients()
-      loadRecipes()
     }
   }, [status, loadIngredients, loadRecipes])
 
