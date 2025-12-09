@@ -65,20 +65,20 @@ export function RecipeForm({ initialRecipe }: RecipeFromProps) {
       {errors.root && (
         <p className="text-red-500 text-sm">{errors.root.message}</p>
       )}
-      <div className="flex w-full items-center gap-2 justify-start mt-4">
+      <div className="flex flex-col sm:flex-row w-full items-center gap-2 justify-start mt-4">
         {fields.length < 10 && (
           <SecondaryButton
             text="add ingredient"
             size="lg"
             action={addIngredient}
-            style={{ minWidth: '50%' }}
+            className="sm:min-w-1/2 w-full"
           />
         )}
         <PrimaryButton
           text="save recipe"
           size="lg"
           type="submit"
-          style={{ minWidth: '50%' }}
+          className="sm:min-w-1/2 w-full"
         />
       </div>
     </Form>

@@ -19,7 +19,12 @@ export function ModalComponent({
   children,
 }: ModalComponentProps) {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={size}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size={size}
+      placement="center"
+    >
       <ModalContent>
         <ModalHeader className="border-b-1 border-b-light-gray">
           <h3 className="text-lg font-semibold">{title}</h3>

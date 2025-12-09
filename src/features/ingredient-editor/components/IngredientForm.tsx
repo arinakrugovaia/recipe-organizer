@@ -21,15 +21,15 @@ export function IngredientForm() {
   } = useIngredientForm()
 
   return (
-    <Form className="max-w-[480px] w-full" onSubmit={handleSubmit(onSubmit)}>
+    <Form className="md:max-w-[480px] w-full" onSubmit={handleSubmit(onSubmit)}>
       <ControlledTextInput
         control={control}
         name="name"
         label="ingredient name"
         isRequired={true}
       />
-      <div className="flex gap-2 w-full items-center">
-        <div className="w-1/3">
+      <div className="flex flex-col sm:flex-row gap-2 w-full items-center">
+        <div className="w-full sm:w-1/3">
           <ControlledSelect
             control={control}
             name="category"
@@ -38,7 +38,7 @@ export function IngredientForm() {
             options={CATEGORY_OPTIONS}
           />
         </div>
-        <div className="w-1/3">
+        <div className="w-full sm:w-1/3">
           <ControlledSelect
             control={control}
             name="unit"
@@ -47,7 +47,7 @@ export function IngredientForm() {
             options={UNIT_OPTIONS}
           />
         </div>
-        <div className="w-1/3">
+        <div className="w-full sm:w-1/3">
           <ControlledNumberInput
             control={control}
             name="pricePerUnit"

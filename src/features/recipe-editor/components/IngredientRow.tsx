@@ -21,7 +21,7 @@ export function IngredientRow({
   unit,
 }: IngredientRowProps) {
   return (
-    <div className="flex w-full items-center justify-start gap-2">
+    <div className="flex w-full flex-col sm:flex-row items-center justify-start gap-2">
       <Controller
         control={control}
         name={`ingredients.${index}.ingredientId`}
@@ -32,7 +32,7 @@ export function IngredientRow({
             aria-label="ingredient"
             label="choose ingredient"
             name="ingredient"
-            className="w-1/2"
+            className="w-full sm:w-1/2"
             selectedKeys={field.value ? [field.value] : []}
             onSelectionChange={(keys) => {
               const value = Array.from(keys)[0]
@@ -48,7 +48,8 @@ export function IngredientRow({
         )}
       />
 
-      <Controller
+      <div className="flex gap-2 w-full sm:w-1/2">
+        <Controller
         control={control}
         name={`ingredients.${index}.quantity`}
         render={({ field, fieldState }) => (
@@ -63,7 +64,7 @@ export function IngredientRow({
             onChange={(e) => field.onChange(Number(e.target.value))}
             errorMessage={fieldState.error?.message}
             isInvalid={!!fieldState.error}
-            className="min-w-1/4 flex-1"
+            className="min-w-1/3 flex-1"
             endContent={
               unit ? (
                 <span className="text-gray-500 pr-1">{getUnitLabel(unit)}</span>
@@ -73,15 +74,16 @@ export function IngredientRow({
         )}
       />
 
-      <Tooltip content="delete ingredient" delay={500}>
-        <Button
-          isIconOnly
-          onPress={() => onRemove(index)}
-          className="h-[56px] w-1/6 bg-light-gray text-gray hover:bg-primary-dark hover:text-primary-white transition-colors"
-        >
-          <DeleteIcon />
-        </Button>
-      </Tooltip>
+        <Tooltip content="delete ingredient" delay={500}>
+          <Button
+            isIconOnly
+            onPress={() => onRemove(index)}
+            className="h-[56px] w-1/4 bg-light-gray text-gray hover:bg-primary-dark hover:text-primary-white transition-colors"
+          >
+            <DeleteIcon />
+          </Button>
+        </Tooltip>
+      </div>
     </div>
   )
 }

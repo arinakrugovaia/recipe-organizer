@@ -43,7 +43,7 @@ export default async function RootLayout({
             <AppLoader>
               <Header />
               <main
-                className="flex flex-col justify-start mx-auto items-center max-w-[1024px] w-full px-6"
+                className="flex flex-col text-sm sm:text-base justify-start mx-auto items-center max-w-[1024px] w-full px-6 mb-4"
                 style={{
                   minHeight: `calc(100vh - ${layoutConfig.headerHeight} - ${layoutConfig.footerHeight})`,
                 }}
@@ -53,7 +53,7 @@ export default async function RootLayout({
                 {children}
               </main>
               <footer
-                className="flex justify-center items-center text-gray"
+                className="flex justify-center items-center text-gray text-center px-6"
                 style={{
                   height: layoutConfig.footerHeight,
                 }}

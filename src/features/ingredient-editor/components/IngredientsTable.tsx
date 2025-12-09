@@ -70,7 +70,7 @@ export function IngredientsTable() {
   }
 
   return (
-    <>
+    <div className="w-full overflow-x-auto">
       {error && <p className="text-red-500 text-sm">{error}</p>}
       <Table
         removeWrapper
@@ -113,6 +113,6 @@ export function IngredientsTable() {
           ))}
         </TableBody>
       </Table>
-    </>
+    </div>
   )
 }
