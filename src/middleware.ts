@@ -1,11 +1,19 @@
-import { NextRequest, NextResponse } from 'next/server'
+ import { NextRequest, NextResponse } from 'next/server'
 import { getToken } from 'next-auth/jwt'
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
+
+  const cookieName =
+    process.env.NODE_ENV === 'production'
+      ? '__Secure-authjs.session-token'
+      : 'next-auth.session-token'
+
+
   const token = await getToken({
     req: request,
     secret: process.env.AUTH_SECRET,
+    cookieName
   })
 
   const protectedRoutes = ['/ingredients', '/recipes/new', '/recipes/:path*']
