@@ -122,7 +122,7 @@ export default function Header() {
         className="md:hidden"
       />
       <NavbarBrand>
-        <Link href="/public" className="flex gap-px items-center">
+        <Link href="/" className="flex gap-px items-center">
           <Logo />
           <h2>{siteConfig.title}</h2>
         </Link>
